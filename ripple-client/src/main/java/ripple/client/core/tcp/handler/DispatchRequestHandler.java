@@ -74,6 +74,22 @@ public class DispatchRequestHandler implements Handler {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
+        // For logging
+        try {
+            boolean loadTestEnabled = true;
+            if (loadTestEnabled) {
+                long endTime = System.currentTimeMillis();
+                long startTime = dispatchRequest.getLastUpdate().getTime();
+                System.out.println((endTime - startTime) + " ms");
+//                String[] source = dispatchRequest.getValue().split(" ");
+//                long startTime = Long.parseLong(source[2]);
+//                System.out.println("[" + simpleDateFormat.format(new Date(System.currentTimeMillis()))
+//                        + "] Received: " + source[0] + "," + source[1] + "," + (endTime - startTime) + "ms. From DISPATCH.");
+            }
+        } catch (NumberFormatException ignored) {
+
+        }
+
 
         if (dispatchRequest.getOperationType().equals(Constants.MESSAGE_TYPE_UPDATE)) {
             LOGGER.info("[DispatchRequestHandler] [{}:{}<-->{}:{}] Receive DISPATCH request. UUID = {}, Client List Signature = {}, Message UUID = {}" +
@@ -114,20 +130,6 @@ public class DispatchRequestHandler implements Handler {
                     , dispatchRequest.getValue(), dispatchRequest.getLastUpdate(), dispatchRequest.getLastUpdateServerId());
             this.applyMessage(msg);
             this.dispatchMessage(dispatchRequest, msg);
-        }
-
-        // For logging
-        try {
-            boolean loadTestEnabled = false;
-            if (loadTestEnabled) {
-                long endTime = System.currentTimeMillis();
-                String[] source = dispatchRequest.getValue().split(" ");
-                long startTime = Long.parseLong(source[2]);
-                System.out.println("[" + simpleDateFormat.format(new Date(System.currentTimeMillis()))
-                        + "] Received: " + source[0] + "," + source[1] + "," + (endTime - startTime) + "ms. From DISPATCH.");
-            }
-        } catch (NumberFormatException ignored) {
-
         }
 
         DispatchResponse dispatchResponse = new DispatchResponse();

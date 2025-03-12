@@ -74,6 +74,27 @@ public class SyncRequestHandler implements Handler {
         InetSocketAddress remoteAddress = ((NioSocketChannel) channelHandlerContext.channel()).remoteAddress();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+        // For logging
+        try {
+            boolean loadTestEnabled = true;
+            if (loadTestEnabled) {
+                long endTime = System.currentTimeMillis();
+                long startTime = syncRequest.getLastUpdate().getTime();
+
+                String clientId = this.getRippleClient().getStorage().getLocation().replace(".sqlite", "");
+                System.out.println("[" + clientId + "] " + (endTime - startTime) + " ms. Message received: "
+                        + syncRequest.getApplicationName() + "." + syncRequest.getKey() + "=" + syncRequest.getValue());
+//                long endTime = System.currentTimeMillis();
+//                String[] source = syncRequest.getValue().split(" ");
+//                long startTime = Long.parseLong(source[2]);
+//                System.out.println("[" + simpleDateFormat.format(new Date(System.currentTimeMillis()))
+//                        + "] Received: " + source[0] + "," + source[1] + "," + (endTime - startTime) + "ms. From SYNC.");
+            }
+        } catch (NumberFormatException ignored) {
+
+        }
+
         AbstractMessage msg = null;
         if (syncRequest.getOperationType().equals(Constants.MESSAGE_TYPE_UPDATE)) {
             LOGGER.info("[" + simpleDateFormat.format(new Date(System.currentTimeMillis()))
@@ -114,20 +135,6 @@ public class SyncRequestHandler implements Handler {
         }
 
         Result result = this.applyMessage(msg);
-
-        // For logging
-        try {
-            boolean loadTestEnabled = false;
-            if (loadTestEnabled) {
-                long endTime = System.currentTimeMillis();
-                String[] source = syncRequest.getValue().split(" ");
-                long startTime = Long.parseLong(source[2]);
-                System.out.println("[" + simpleDateFormat.format(new Date(System.currentTimeMillis()))
-                        + "] Received: " + source[0] + "," + source[1] + "," + (endTime - startTime) + "ms. From SYNC.");
-            }
-        } catch (NumberFormatException ignored) {
-
-        }
 
         SyncResponse syncResponse = new SyncResponse();
         syncResponse.setUuid(syncRequest.getUuid());

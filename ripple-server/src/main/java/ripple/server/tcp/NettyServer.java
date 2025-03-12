@@ -139,7 +139,7 @@ public class NettyServer {
             ChannelFuture future = serverBootstrap.bind(this.getAddress(), this.getPort()).addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                    LOGGER.info("[NettyServer] [Server-{}] start(): Completed.", getNode().getId());
+                    LOGGER.trace("[NettyServer] [Server-{}] start(): Completed.", getNode().getId());
                 }
             }).sync();
             if (this.getPort() == 0) {
@@ -177,7 +177,7 @@ public class NettyServer {
 
     public synchronized Channel connect(String address, int port) {
         try {
-            LOGGER.info("[NettyServer] [Server-{}] Connecting to {}:{}.", getNode().getId(), address, port);
+            LOGGER.trace("[NettyServer] [Server-{}] Connecting to {}:{}.", getNode().getId(), address, port);
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(this.getWorkerGroup())
                     .channel(NioSocketChannel.class)
@@ -189,7 +189,7 @@ public class NettyServer {
             ChannelFuture future = bootstrap.connect(address, port).addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                    LOGGER.info("[NettyServer] [Server-{}] connect: Connected.", getNode().getId());
+                    LOGGER.trace("[NettyServer] [Server-{}] connect: Connected.", getNode().getId());
                 }
             });
             return future.channel();
@@ -207,7 +207,7 @@ public class NettyServer {
                 return channel;
             }
         }
-        LOGGER.info("[NettyServer] [Server-{}] findChannel(): Cannot find the channel for {}:{}."
+        LOGGER.trace("[NettyServer] [Server-{}] findChannel(): Cannot find the channel for {}:{}."
                 , this.getNode().getId(), address, port);
         return null;
     }
@@ -215,7 +215,7 @@ public class NettyServer {
     public boolean sendMessage(String address, int port, Message message) {
         Channel channel = this.findChannel(address, port);
         if (channel == null) {
-            LOGGER.info("[NettyServer] [Server-{}] sendMessage(): Channel is null.", this.getNode().getId());
+            LOGGER.trace("[NettyServer] [Server-{}] sendMessage(): Channel is null.", this.getNode().getId());
             return false;
         }
         channel.writeAndFlush(message);

@@ -39,46 +39,46 @@ public class ClientClusterServlet extends BaseServlet {
         stringBuilder.append("                    ")
                 .append(this.getNode().getStringTable().totalNumberOfClients())
                 .append(" <strong>")
-                .append(this.getNode().getConnectedClients().size())
+                .append(this.getNode().getSubscription().size() * this.getNode().getConnectedClients().size())
                 .append("</strong>")
                 .append("\n");
         stringBuilder.append("                </p>\n");
-        if (this.getNode().getConnectedClients().size() > 0) {
-            stringBuilder.append("                <table class=\"table table-striped\">\n");
-            stringBuilder.append("                    <thead>\n");
-            stringBuilder.append("                    <tr>\n");
-            stringBuilder.append("                        <th>");
-            stringBuilder.append(this.getNode().getStringTable().lineNumber());
-            stringBuilder.append("</th>\n");
-            stringBuilder.append("                        <th>");
-            stringBuilder.append(this.getNode().getStringTable().clientIpAddress());
-            stringBuilder.append("</th>\n");
-            stringBuilder.append("                        <th>");
-            stringBuilder.append(this.getNode().getStringTable().clientApiPort());
-            stringBuilder.append("</th>\n");
-            stringBuilder.append("                    </tr>\n");
-            stringBuilder.append("                    </thead>\n");
-            stringBuilder.append("                    <tbody>\n");
-
-            int i = 0;
-            for (ClientMetadata metadata : this.getNode().getConnectedClients()) {
-                stringBuilder.append("                    <tr>\n");
-                stringBuilder.append("                        <td>")
-                        .append(i + 1)
-                        .append("</td>\n");
-                stringBuilder.append("                        <td>")
-                        .append(metadata.getAddress())
-                        .append("</td>\n");
-                stringBuilder.append("                        <td>")
-                        .append(metadata.getPort())
-                        .append("</td>\n");
-                stringBuilder.append("                    </tr>\n");
-                i++;
-            }
-
-            stringBuilder.append("                    </tbody>\n");
-            stringBuilder.append("                </table>\n");
-        }
+//        if (this.getNode().getConnectedClients().size() > 0) {
+//            stringBuilder.append("                <table class=\"table table-striped\">\n");
+//            stringBuilder.append("                    <thead>\n");
+//            stringBuilder.append("                    <tr>\n");
+//            stringBuilder.append("                        <th>");
+//            stringBuilder.append(this.getNode().getStringTable().lineNumber());
+//            stringBuilder.append("</th>\n");
+//            stringBuilder.append("                        <th>");
+//            stringBuilder.append(this.getNode().getStringTable().clientIpAddress());
+//            stringBuilder.append("</th>\n");
+//            stringBuilder.append("                        <th>");
+//            stringBuilder.append(this.getNode().getStringTable().clientApiPort());
+//            stringBuilder.append("</th>\n");
+//            stringBuilder.append("                    </tr>\n");
+//            stringBuilder.append("                    </thead>\n");
+//            stringBuilder.append("                    <tbody>\n");
+//
+//            int i = 0;
+//            for (ClientMetadata metadata : this.getNode().getConnectedClients()) {
+//                stringBuilder.append("                    <tr>\n");
+//                stringBuilder.append("                        <td>")
+//                        .append(i + 1)
+//                        .append("</td>\n");
+//                stringBuilder.append("                        <td>")
+//                        .append(metadata.getAddress())
+//                        .append("</td>\n");
+//                stringBuilder.append("                        <td>")
+//                        .append(metadata.getPort())
+//                        .append("</td>\n");
+//                stringBuilder.append("                    </tr>\n");
+//                i++;
+//            }
+//
+//            stringBuilder.append("                    </tbody>\n");
+//            stringBuilder.append("                </table>\n");
+//        }
 
         String content = stringBuilder.toString();
 

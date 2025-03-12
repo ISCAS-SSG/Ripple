@@ -42,7 +42,7 @@ public class ServerMessageHandler extends MessageHandler {
     public void channelActive(ChannelHandlerContext ctx) {
         InetSocketAddress localAddress = ((NioSocketChannel) ctx.channel()).localAddress();
         InetSocketAddress remoteAddress = ((NioSocketChannel) ctx.channel()).remoteAddress();
-        LOGGER.info("[ServerMessageHandler] [{}:{}<-->{}:{}] Connected."
+        LOGGER.trace("[ServerMessageHandler] [{}:{}<-->{}:{}] Connected."
                 , localAddress.getHostString(), localAddress.getPort()
                 , remoteAddress.getHostString(), remoteAddress.getPort());
         this.getNettyServer().getConnectedNodes().add(ctx.channel());
@@ -52,7 +52,7 @@ public class ServerMessageHandler extends MessageHandler {
     public void channelInactive(ChannelHandlerContext ctx) {
         InetSocketAddress localAddress = ((NioSocketChannel) ctx.channel()).localAddress();
         InetSocketAddress remoteAddress = ((NioSocketChannel) ctx.channel()).remoteAddress();
-        LOGGER.info("[ServerMessageHandler] [{}:{}<-->{}:{}] Disconnected."
+        LOGGER.trace("[ServerMessageHandler] [{}:{}<-->{}:{}] Disconnected."
                 , localAddress.getHostString(), localAddress.getPort()
                 , remoteAddress.getHostString(), remoteAddress.getPort());
         this.getNettyServer().getConnectedNodes().remove(ctx.channel());
@@ -62,8 +62,8 @@ public class ServerMessageHandler extends MessageHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         InetSocketAddress localAddress = ((NioSocketChannel) ctx.channel()).localAddress();
         InetSocketAddress remoteAddress = ((NioSocketChannel) ctx.channel()).remoteAddress();
-        cause.printStackTrace();
-        LOGGER.info("[ServerMessageHandler] [{}:{}<-->{}:{}] Exception caught: {}."
+        // cause.printStackTrace();
+        LOGGER.trace("[ServerMessageHandler] [{}:{}<-->{}:{}] Exception caught: {}."
                 , localAddress.getHostString(), localAddress.getPort()
                 , remoteAddress.getHostString(), remoteAddress.getPort()
                 , cause.getLocalizedMessage());

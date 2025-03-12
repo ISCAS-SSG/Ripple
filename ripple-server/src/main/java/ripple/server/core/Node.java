@@ -38,6 +38,7 @@ import ripple.common.storage.Storage;
 import ripple.common.storage.sqlite.SqliteStorage;
 import ripple.common.tcp.message.Result;
 import ripple.server.core.dispatcher.ClientDispatcher;
+import ripple.server.core.dispatcher.DefaultClientDispatcher;
 import ripple.server.core.dispatcher.EqualDivisionClientDispatcher;
 import ripple.server.core.overlay.Overlay;
 import ripple.server.helper.Api;
@@ -303,7 +304,8 @@ public class Node {
         this.setUiPort(uiPort);
         this.setConnectedClients(new HashSet<>());
         this.setClientListCache(new ClientListCache());
-        this.setClientDispatcher(new EqualDivisionClientDispatcher(this));
+        // this.setClientDispatcher(new EqualDivisionClientDispatcher(this));
+        this.setClientDispatcher(new DefaultClientDispatcher(this));
         this.updateCpuLoad(1000);
 
         if (language.equalsIgnoreCase("chinese")) {
@@ -601,7 +603,7 @@ public class Node {
             Channel channel = this.getApiServer().findChannel(metadata.getAddress(), metadata.getPort());
             if (channel == null) {
                 try {
-                    LOGGER.info("[Node-{}] Reconnecting to Node-{} ({}:{})."
+                    LOGGER.trace("[Node-{}] Reconnecting to Node-{} ({}:{})."
                             , this.getId(), metadata.getId(), metadata.getAddress(), metadata.getPort());
                     this.getApiServer().connect(metadata.getAddress(), metadata.getPort());
                 } catch (Exception exception) {

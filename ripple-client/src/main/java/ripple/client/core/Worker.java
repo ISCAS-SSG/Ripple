@@ -40,10 +40,10 @@ public class Worker implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted() && this.getRippleClient().isRunning()) {
             try {
-                LOGGER.info("[Worker] Gathering CPU usage of servers for every {} ms.", INTERVAL);
-                for (NodeMetadata nodeMetadata : this.getRippleClient().getNodeList()) {
-                    this.getRippleClient().systemInfo(nodeMetadata.getId());
-                }
+//                LOGGER.info("[Worker] Gathering CPU usage of servers for every {} ms.", INTERVAL);
+//                for (NodeMetadata nodeMetadata : this.getRippleClient().getNodeList()) {
+//                    this.getRippleClient().systemInfo(nodeMetadata.getId());
+//                }
                 Thread.sleep(INTERVAL);
             } catch (InterruptedException exception) {
                 LOGGER.info("[Worker] Interrupted.");
