@@ -126,7 +126,7 @@ public class RippleClient {
         this.setResolver(new LastWriteWinsResolver());
     }
 
-    public RippleClient(List<NodeMetadata> nodeList, NodeSelector nodeSelector, String address, String storageLocation) {
+    public RippleClient(List<NodeMetadata> nodeList, NodeSelector nodeSelector, String storageLocation, String address) {
         this(nodeList, nodeSelector, storageLocation, address, "english");
     }
 
